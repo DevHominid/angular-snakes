@@ -29,10 +29,21 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     // Grab mode param from URL
-    this.mode = this.route.snapshot.params.mode;
+    // this.mode = this.route.snapshot.params.mode;
+    this.route.paramMap
+      .switchMap((params: ParamMap) => {
+        this.mode = params.get('mode');
+        console.log(this.mode);
+        return this.mode;
+      })
+      .subscribe((mode) => {
+        this.setSpeciesDefault();
+
+        // Init game board
+        this.initBoard();
+      });
 
     // Set defaults
-    this.setSpeciesDefault();
     this.boardSize = 15;
     this.directions = {
       left: 37,
@@ -52,9 +63,6 @@ export class GameComponent implements OnInit {
       x: 1,
       y: 0
     };
-
-    // Init game board
-    this.initBoard();
 
     // Init event listeners
     document.querySelector('body').addEventListener('keyup', (e) => {
@@ -79,6 +87,25 @@ export class GameComponent implements OnInit {
         diet: 'rodents, bandicoots, birds',
         behavior: 'extremely aggressive when cornered',
         url: 'assets/images/australia.png'
+      }
+    } else if (this.mode === 'africa') {
+      this.species = {
+        name: 'black mamba',
+        region: 'africa',
+        length: '2.5 meters',
+        diet: 'rodents, bushbabies, birds',
+        behavior: 'graceful but often unpredictable, shy and secretive by nature',
+        url: 'assets/images/africa.png'
+      }
+    }
+    else if (this.mode === 'southamerica') {
+      this.species = {
+        name: 'anaconda',
+        region: 'south america',
+        length: '5 meters',
+        diet: 'fish, birds, mammals, reptiles',
+        behavior: 'slow and sluggish on land, but can move quickly in water',
+        url: 'assets/images/southamerica.png'
       }
     }
   }
@@ -121,18 +148,50 @@ export class GameComponent implements OnInit {
       };
       return this.colors;
     }
+    else if (this.mode === 'africa') {
+      this.colors = {
+        gameOver: '#FBFCFC',
+        bait: '#758E4F',
+        snakeHead: '#080F0F',
+        snakeBody: '#3D3D3E',
+        board: '#DCCCA3'
+      };
+      return this.colors;
+    }
+    else if (this.mode === 'southamerica') {
+      this.colors = {
+        gameOver: '#FBFCFC',
+        bait: '#7FC1BE',
+        snakeHead: '#08605F',
+        snakeBody: '#90AA86',
+        board: '#177E89'
+      };
+      return this.colors;
+    }
   }
 
   selectInitialInterval() {
     if (this.mode === 'australia') {
       this.initialInterval = 100;
       return this.initialInterval;
+    } else if (this.mode === 'africa') {
+      this.initialInterval = 115;
+      return this.initialInterval;
+    } else if (this.mode === 'southamerica') {
+      this.initialInterval = 145;
+      return this.initialInterval;
     }
   }
 
   selectInitialLength() {
     if (this.mode === 'australia') {
+      this.initialLength = 3;
+      return this.initialLength;
+    } else if (this.mode === 'africa') {
       this.initialLength = 5;
+      return this.initialLength;
+    } else if (this.mode === 'southamerica') {
+      this.initialLength = 10;
       return this.initialLength;
     }
   }

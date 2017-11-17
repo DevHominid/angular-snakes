@@ -1,1 +1,23 @@
+<header>
+  <nav id="nav-main">
+    <div class="container">
+      <div class="headings">
+        <h1>Snakes</h1>
+        <h2>World Tour</h2>
+      </div>
+      <ul>
+        <li><a routerLink="/" (click)="navClick()">Home</a></li>
+        <li><a routerLink="/game/australia" (click)="navClick()">Australia</a></li>
+        <li><a routerLink="/game/africa" (click)="navClick()">Africa</a></li>
+        <li><a routerLink="/game/southamerica" (click)="navClick()">South America</a></li>
+        <li><a href="https://github.com/DevHominid/angular-snakes" target="_blank" (click)="navClick()">See Code</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div id="nav-btn" (click)="navClick()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
 <router-outlet></router-outlet>

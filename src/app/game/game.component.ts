@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import * as _ from 'lodash';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-game',
@@ -10,7 +12,7 @@ export class GameComponent implements OnInit {
   species: Species;
   board: any;
   boardSize: number;
-  mode: string;
+  mode: any;
   directions: Directions;
   snake: Snake;
   bait: Bait;
@@ -21,13 +23,15 @@ export class GameComponent implements OnInit {
   currentDirection: number;
   colors: Colors;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
 
   }
 
   ngOnInit() {
+    // Grab mode param from URL
+    this.mode = this.route.snapshot.params.mode;
+
     // Set defaults
-    this.mode = 'australia';
     this.setSpeciesDefault();
     this.boardSize = 15;
     this.directions = {

@@ -79,6 +79,53 @@ export class GameComponent implements OnInit {
     return this.colors.board;
   }
 
+  initGame() {
+    this.score = 0;
+    this.snake = {direction: this.directions.left, sections: []};
+    this.currentDirection = this.directions.left;
+    this.isGameOver = false;
+    this.initialInterval = 150;
+
+    // init snake
+    for (let i = 0; i < 5; i++) {
+      this.snake.sections.push({x: 5, y: 5});
+    }
+    this.resetBait();
+    this.updateGame();
+  }
+
+  resetBait() {
+    const x = Math.floor(Math.random() * this.boardSize);
+    const y = Math.floor(Math.random() * this.boardSize);
+
+    if (this.board[y][x] === true) {
+      return this.resetBait();
+    }
+    this.bait = {x: x, y: y};
+  }
+
+  updateGame = () => {
+    const nextHead = this.getNextHead();
+
+    if (this.touchEdge(nextHead) || this.touchSelf(nextHead)) {
+      return this.gameOver();
+    } else if (this.touchBait(nextHead)) {
+      this.eatBait();
+    }
+
+    // Remove tail
+    const prevTail = this.snake.sections.pop();
+    this.board[prevTail.y][prevTail.x] = false;
+
+    // Send tail to snakeHead
+    this.snake.sections.unshift(nextHead);
+    this.board[nextHead.y][nextHead.x] = true;
+
+    // Repeat
+    this.snake.direction = this.currentDirection;
+    setTimeout(this.updateGame, this.interval);
+  }
+
 }
 
 interface Directions {

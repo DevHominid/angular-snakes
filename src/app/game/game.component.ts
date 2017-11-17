@@ -28,21 +28,6 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Grab mode param from URL
-    // this.mode = this.route.snapshot.params.mode;
-    this.route.paramMap
-      .switchMap((params: ParamMap) => {
-        this.mode = params.get('mode');
-        console.log(this.mode);
-        return this.mode;
-      })
-      .subscribe((mode) => {
-        this.setSpeciesDefault();
-
-        // Init game board
-        this.initBoard();
-      });
-
     // Set defaults
     this.boardSize = 15;
     this.directions = {
@@ -63,6 +48,20 @@ export class GameComponent implements OnInit {
       x: 1,
       y: 0
     };
+
+    // Grab mode param from URL
+    this.route.paramMap
+      .switchMap((params: ParamMap) => {
+        this.mode = params.get('mode');
+        console.log(this.mode);
+        return this.mode;
+      })
+      .subscribe((mode) => {
+        this.setSpeciesDefault();
+
+        // Init game board
+        this.initBoard();
+      });
 
     // Init event listeners
     document.querySelector('body').addEventListener('keyup', (e) => {

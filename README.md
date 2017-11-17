@@ -1,5 +1,13 @@
 # AngularSnakes
 
+Snakes: World Tour is a wordly and educational rendition of the original snake game. Travel to 3 different countries and experience unique, snake-specific gameplay. Color, initial speed, and length are just a few of the dynamic variables involved.
+
+Game component inspired by [Building Snake with AngularJS](https://medium.com/@zackargyle/building-snake-with-angularjs-d3035e8be985). Used the same board rendering logic and applied it to an angular class component. The URL param 'mode' (australia, africa, southamerica) allows for setting dynamic default values based on country.  
+
+## Getting Started
+
+View project [here](https://devhominid.github.io/angular-snakes/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
 
 ## Development server

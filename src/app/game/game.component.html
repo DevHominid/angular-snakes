@@ -1,10 +1,35 @@
-<section>
-  <div>
-    <div class="row" *ngFor="let column of board; let i = index">
-      <div class="column" [ngStyle]="{'background-color': setStyles(i, j)}" *ngFor="let row of column; let j = index" data-id="">
+<section class="section-game">
+  <div class="container">
+    <header>
+      <img src={{species.url}}>
+      <div class="headings">
+        <h1>{{species.region}}</h1>
+        <h2>{{species.name}}</h2>
+      </div>
+    </header>
+    <div class="game-container">
+      <div class="game-board">
+        <div class="row" *ngFor="let column of board; let i = index">
+          <div class="column" [ngStyle]="{'background-color': setStyles(i, j)}" *ngFor="let row of column; let j = index" data-id="">
+          </div>
+        </div>
+      </div>
+      <div class="game-info">
+        <h4>Score: {{score}}</h4>
+        <div class="info-item">
+          <span class="info-label">Diet:</span>
+          <span class="info-value">{{species.diet}}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Length:</span>
+          <span class="info-value">{{species.length}}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Behavior:</span>
+          <span class="info-value">{{species.behavior}}</span>
+        </div>
+        <button id="start-btn" (click)="initGame()">Start</button>
       </div>
     </div>
   </div>
-  <button id="start-btn" (click)="initGame()">Start</button>
-  <h4>Score: {{score}}</h4>
 </section>

@@ -1,0 +1,57 @@
+
+.section-home img {
+  display: block;
+  position: absolute;
+  width: 550px;
+  left: 50%;
+  top: 30px;
+  margin-left: -275px;
+}
+
+.section-home h1 {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  margin-top: 6.875rem; /* 110 ÷ 16 */
+  text-align: center;
+  font-size: 6.25em; /* 100 ÷ 16 */
+  font-weight: 600; /* Semi-bold */
+  text-transform: uppercase;
+  color: #0C0E0C;
+}
+
+.section-home h2 {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  text-align: center;
+  font-size: 4.5em; /* 72 ÷ 16 */
+  font-weight: 300; /* Light */
+  text-transform: uppercase;
+  color: #0C0E0C;
+}
+
+.section-home .links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3.75rem; /* 60 ÷ 16 */
+}
+
+.section-home .link-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2.5rem; /* 40 ÷ 16 */
+}
+
+.section-home .link-item i {
+  color: #0C0E0C;
+}
+
+.section-home .link-item a {
+  font-size: 4em; /* 64 ÷ 16 */
+  text-decoration: none;
+  color: #0C0E0C;
+  margin-left: 2.5rem; /* 40 ÷ 16 */
+}

@@ -7,6 +7,7 @@ import * as _ from 'lodash';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+  species: Species;
   board: any;
   boardSize: number;
   mode: string;
@@ -27,7 +28,8 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     // Set defaults
     this.mode = 'australia';
-    this.boardSize = 20;
+    this.setSpeciesDefault();
+    this.boardSize = 15;
     this.directions = {
       left: 37,
       right: 39,
@@ -62,6 +64,19 @@ export class GameComponent implements OnInit {
         this.currentDirection = this.directions.down;
       }
     });
+  }
+
+  setSpeciesDefault() {
+    if (this.mode === 'australia') {
+      this.species = {
+        name: 'coastal taipan',
+        region: 'australia',
+        length: '1.8 meters',
+        diet: 'rodents, bandicoots, birds',
+        behavior: 'extremely aggressive when cornered',
+        url: 'assets/images/australia.png'
+      }
+    }
   }
 
   // Init game board
@@ -100,8 +115,21 @@ export class GameComponent implements OnInit {
         snakeBody: '#C57B57',
         board: '#BEA57D'
       };
-      console.log(this.colors);
       return this.colors;
+    }
+  }
+
+  selectInitialInterval() {
+    if (this.mode === 'australia') {
+      this.initialInterval = 100;
+      return this.initialInterval;
+    }
+  }
+
+  selectInitialLength() {
+    if (this.mode === 'australia') {
+      this.initialLength = 5;
+      return this.initialLength;
     }
   }
 
@@ -122,20 +150,6 @@ export class GameComponent implements OnInit {
     this.resetBait();
     // Start updates
     this.updateGame();
-  }
-
-  selectInitialInterval() {
-    if (this.mode === 'australia') {
-      this.initialInterval = 100;
-      return this.initialInterval;
-    }
-  }
-
-  selectInitialLength() {
-    if (this.mode === 'australia') {
-      this.initialLength = 5;
-      return this.initialLength;
-    }
   }
 
   updateGame = () => {
@@ -223,11 +237,20 @@ export class GameComponent implements OnInit {
 
     setTimeout(() => {
       this.isGameOver = false;
-    }, 500);
+    }, 1000);
 
     this.initBoard();
   }
 
+}
+
+interface Species {
+  name: string,
+  region: string,
+  diet: string,
+  length: string,
+  behavior: string,
+  url: string
 }
 
 interface Directions {

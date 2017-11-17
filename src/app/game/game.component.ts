@@ -9,13 +9,14 @@ import * as _ from 'lodash';
 export class GameComponent implements OnInit {
   board: any;
   boardSize: number;
+  mode: string;
   directions: Directions;
   snake: Snake;
   bait: Bait;
   score: number;
   isGameOver: boolean;
+  initialLength: number;
   initialInterval: number;
-  currentInterval: number;
   currentDirection: number;
   colors: Colors;
 
@@ -25,19 +26,13 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     // Set defaults
+    this.mode = 'australia';
     this.boardSize = 20;
     this.directions = {
       left: 37,
       right: 39,
       up: 38,
       down: 40
-    };
-    this.colors = {
-      gameOver: '#FBFCFC',
-      bait: '#FBFCFC',
-      snakeHead: '#74B3CE',
-      snakeBody: '#64C196',
-      board: '#2274A5'
     };
     this.score = 0;
     this.snake = {
@@ -71,6 +66,8 @@ export class GameComponent implements OnInit {
 
   // Init game board
   initBoard() {
+    // Set color scheme
+    this.selectColorScheme();
     this.board = [];
     for (let i = 0; i < this.boardSize; i++) {
       this.board[i] = [];
@@ -94,22 +91,51 @@ export class GameComponent implements OnInit {
     return this.colors.board;
   }
 
+  selectColorScheme() {
+    if (this.mode === 'australia') {
+      this.colors = {
+        gameOver: '#FBFCFC',
+        bait: '#4A4A4A',
+        snakeHead: '#F1AB86',
+        snakeBody: '#C57B57',
+        board: '#BEA57D'
+      };
+      console.log(this.colors);
+      return this.colors;
+    }
+  }
+
   // Init game
   initGame() {
     this.score = 0;
     this.snake = {direction: this.directions.down, sections: []};
     this.currentDirection = this.directions.down;
     this.isGameOver = false;
-    this.initialInterval = 150;
+    this.selectInitialInterval();
+    this.selectInitialLength();
 
     // init snake
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < this.initialLength; i++) {
       this.snake.sections.push({x: 5, y: 5});
     }
     // Set bait
     this.resetBait();
     // Start updates
     this.updateGame();
+  }
+
+  selectInitialInterval() {
+    if (this.mode === 'australia') {
+      this.initialInterval = 100;
+      return this.initialInterval;
+    }
+  }
+
+  selectInitialLength() {
+    if (this.mode === 'australia') {
+      this.initialLength = 5;
+      return this.initialLength;
+    }
   }
 
   updateGame = () => {
@@ -177,7 +203,7 @@ export class GameComponent implements OnInit {
     this.resetBait();
 
     if (this.score % 5 === 0) {
-      this.currentInterval -= 15;
+      this.initialInterval -= 15;
     }
   }
 

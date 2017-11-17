@@ -80,6 +80,7 @@ export class GameComponent implements OnInit {
     }
   }
 
+  // Set dynamic styles
   setStyles(col, row) {
     if (this.isGameOver) {
       return this.colors.gameOver;
@@ -93,9 +94,10 @@ export class GameComponent implements OnInit {
     return this.colors.board;
   }
 
+  // Init game
   initGame() {
     this.score = 0;
-    this.snake = {direction: this.directions.left, sections: []};
+    this.snake = {direction: this.directions.down, sections: []};
     this.currentDirection = this.directions.down;
     this.isGameOver = false;
     this.initialInterval = 150;
@@ -104,13 +106,17 @@ export class GameComponent implements OnInit {
     for (let i = 0; i < 10; i++) {
       this.snake.sections.push({x: 5, y: 5});
     }
+    // Set bait
     this.resetBait();
+    // Start updates
     this.updateGame();
   }
 
   updateGame = () => {
+    // Grab next position
     const nextHead = this.getNextHead();
 
+    // Check game boundaries and interactions
     if (this.touchEdge(nextHead) || this.touchSelf(nextHead)) {
       return this.gameOver();
     } else if (this.touchBait(nextHead)) {
@@ -130,9 +136,10 @@ export class GameComponent implements OnInit {
     setTimeout(this.updateGame, this.initialInterval);
   }
 
+
+  // Determine next position
   getNextHead() {
     const nextHead = _.cloneDeep(this.snake.sections[0]);
-    // const nextHead = this.snake.sections[0];
 
     // Update location
     if (this.currentDirection === this.directions.left) {
@@ -166,7 +173,6 @@ export class GameComponent implements OnInit {
 
     // Grow snake by 1 unit
     const tail = _.cloneDeep(this.snake.sections[this.snake.sections.length - 1]);
-    // const tail = this.snake.sections[this.snake.sections.length - 1];
     this.snake.sections.push(tail);
     this.resetBait();
 

@@ -18,9 +18,32 @@ export class GameComponent implements OnInit {
   currentDirection: number;
   colors: Colors;
 
-  constructor() { }
+  constructor() {
+
+  }
 
   ngOnInit() {
+    this.colors = {
+      gameOver: '#FBFCFC',
+      bait: '#FBFCFC',
+      snakeHead: '#74B3CE',
+      snakeBody: '#64C196',
+      board: '#2274A5'
+    };
+
+  }
+
+  setStyles(col, row) {
+    if (this.isGameOver) {
+      return this.colors.gameOver;
+    } else if (this.bait.x == row && this.bait.y == col) {
+      return this.colors.bait;
+    } else if (this.snake.sections[0].x == row && this.snake.sections[0].y == col) {
+      return this.colors.snakeHead;
+    } else if (this.board[col][row] === true) {
+      return this.colors.snakeBody;
+    }
+    return this.colors.board;
   }
 
 }

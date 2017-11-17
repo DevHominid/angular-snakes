@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-game',
@@ -24,7 +25,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     // Set defaults
-    this.boardSize = 10;
+    this.boardSize = 20;
     this.directions = {
       left: 37,
       right: 39,
@@ -40,7 +41,7 @@ export class GameComponent implements OnInit {
     };
     this.score = 0;
     this.snake = {
-      direction: this.directions.left,
+      direction: this.directions.down,
       sections: [{
         x: 0,
         y: 0
@@ -53,6 +54,19 @@ export class GameComponent implements OnInit {
 
     // Init game board
     this.initBoard();
+
+    // Init event listeners
+    document.querySelector('body').addEventListener('keyup', (e) => {
+      if (e.keyCode == this.directions.left && this.snake.direction !== this.directions.right) {
+        this.currentDirection = this.directions.left;
+      } else if (e.keyCode == this.directions.up && this.snake.direction !== this.directions.down) {
+        this.currentDirection = this.directions.up;
+      } else if (e.keyCode == this.directions.right && this.snake.direction !== this.directions.left) {
+        this.currentDirection = this.directions.right;
+      } else if (e.keyCode == this.directions.down && this.snake.direction !== this.directions.up) {
+        this.currentDirection = this.directions.down;
+      }
+    });
   }
 
   // Init game board
@@ -82,12 +96,12 @@ export class GameComponent implements OnInit {
   initGame() {
     this.score = 0;
     this.snake = {direction: this.directions.left, sections: []};
-    this.currentDirection = this.directions.left;
+    this.currentDirection = this.directions.down;
     this.isGameOver = false;
     this.initialInterval = 150;
 
     // init snake
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       this.snake.sections.push({x: 5, y: 5});
     }
     this.resetBait();
@@ -113,12 +127,12 @@ export class GameComponent implements OnInit {
 
     // Repeat
     this.snake.direction = this.currentDirection;
-    setTimeout(this.updateGame, this.currentInterval);
+    setTimeout(this.updateGame, this.initialInterval);
   }
 
   getNextHead() {
-    // const nextHead = _.cloneDeep(this.snake.sections[0]);
-    const nextHead = this.snake.sections[0];
+    const nextHead = _.cloneDeep(this.snake.sections[0]);
+    // const nextHead = this.snake.sections[0];
 
     // Update location
     if (this.currentDirection === this.directions.left) {
@@ -151,8 +165,8 @@ export class GameComponent implements OnInit {
     this.score++;
 
     // Grow snake by 1 unit
-    // const tail = _.cloneDeep(this.snake.sections[this.snake.sections.length - 1]);
-    const tail = this.snake.sections[this.snake.sections.length - 1];
+    const tail = _.cloneDeep(this.snake.sections[this.snake.sections.length - 1]);
+    // const tail = this.snake.sections[this.snake.sections.length - 1];
     this.snake.sections.push(tail);
     this.resetBait();
 

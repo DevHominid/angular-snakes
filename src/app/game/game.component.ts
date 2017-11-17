@@ -23,6 +23,14 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Set defaults
+    this.boardSize = 10;
+    this.directions = {
+      left: 37,
+      right: 39,
+      up: 38,
+      down: 40
+    };
     this.colors = {
       gameOver: '#FBFCFC',
       bait: '#FBFCFC',
@@ -30,7 +38,32 @@ export class GameComponent implements OnInit {
       snakeBody: '#64C196',
       board: '#2274A5'
     };
+    this.score = 0;
+    this.snake = {
+      direction: this.directions.left,
+      sections: [{
+        x: 0,
+        y: 0
+      }]
+    };
+    this.bait = {
+      x: 1,
+      y: 0
+    };
 
+    // Init game board
+    this.initBoard();
+  }
+
+  // Init game board
+  initBoard() {
+    this.board = [];
+    for (let i = 0; i < this.boardSize; i++) {
+      this.board[i] = [];
+      for (let j = 0; j < this.boardSize; j++) {
+        this.board[i][j] = false;
+      }
+    }
   }
 
   setStyles(col, row) {

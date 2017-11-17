@@ -94,16 +94,6 @@ export class GameComponent implements OnInit {
     this.updateGame();
   }
 
-  resetBait() {
-    const x = Math.floor(Math.random() * this.boardSize);
-    const y = Math.floor(Math.random() * this.boardSize);
-
-    if (this.board[y][x] === true) {
-      return this.resetBait();
-    }
-    this.bait = {x: x, y: y};
-  }
-
   updateGame = () => {
     const nextHead = this.getNextHead();
 
@@ -124,6 +114,71 @@ export class GameComponent implements OnInit {
     // Repeat
     this.snake.direction = this.currentDirection;
     setTimeout(this.updateGame, this.interval);
+  }
+
+  getNextHead() {
+    // const nextHead = _.cloneDeep(this.snake.sections[0]);
+    const nextHead = this.snake.sections[0];
+
+    // Update location
+    if (this.currentDirection === this.directions.left) {
+      nextHead.x -= 1;
+    }  else if (this.currentDirection === this.directions.right) {
+      nextHead.x += 1;
+    } else if (this.currentDirection === this.directions.up) {
+      nextHead.y -= 1;
+    } else if (this.currentDirection === this.directions.down) {
+      nextHead.y += 1;
+    }
+    return nextHead;
+  }
+
+  // Define game boundaries
+  touchEdge(section) {
+    return section.x === this.boardSize || section.x === -1 || section.y === this.boardSize || section.y === -1;
+  }
+
+  touchSelf(section) {
+    return this.board[section.y][section.x] === true;
+  }
+
+  touchBait(section) {
+    return section.x === this.bait.x && section.y === this.bait.y;
+  }
+
+  // Define bait interactions
+  eatBait() {
+    this.score++;
+
+    // Grow snake by 1 unit
+    const tail = _.cloneDeep(this.snake.sections[this.snake.sections.length - 1]);
+    this.snake.sections.push(tail);
+    this.resetBait();
+
+    if (this.score % 5 === 0) {
+      this.interval -= 15;
+    }
+  }
+
+  resetBait() {
+    const x = Math.floor(Math.random() * this.boardSize);
+    const y = Math.floor(Math.random() * this.boardSize);
+
+    if (this.board[y][x] === true) {
+      return this.resetBait();
+    }
+    this.bait = {x: x, y: y};
+  }
+
+  // Handle game over
+  gameOver() {
+    this.isGameOver = true;
+
+    setTimeout(() => {
+      this.isGameOver = false;
+    }, 500);
+
+    this.initBoard();
   }
 
 }

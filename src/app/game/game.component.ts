@@ -113,7 +113,7 @@ export class GameComponent implements OnInit {
 
     // Repeat
     this.snake.direction = this.currentDirection;
-    setTimeout(this.updateGame, this.interval);
+    setTimeout(this.updateGame, this.currentInterval);
   }
 
   getNextHead() {
@@ -151,12 +151,13 @@ export class GameComponent implements OnInit {
     this.score++;
 
     // Grow snake by 1 unit
-    const tail = _.cloneDeep(this.snake.sections[this.snake.sections.length - 1]);
+    // const tail = _.cloneDeep(this.snake.sections[this.snake.sections.length - 1]);
+    const tail = this.snake.sections[this.snake.sections.length - 1];
     this.snake.sections.push(tail);
     this.resetBait();
 
     if (this.score % 5 === 0) {
-      this.interval -= 15;
+      this.currentInterval -= 15;
     }
   }
 
